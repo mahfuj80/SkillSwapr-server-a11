@@ -64,6 +64,7 @@ async function run() {
     // await client.connect();
 
     const jobsCollection = client.db('skillSwapr').collection('allJobs');
+    const bidedJobsCollection = client.db('skillSwapr').collection('bidedJobs');
 
     // auth related api
     app.post('/jwt', logger, async (req, res) => {
@@ -113,10 +114,19 @@ async function run() {
     // get individual job
     app.get('/jobDetails/:id', async (req, res) => {
       const id = req.params.id;
-      console.log(id);
       const query = { _id: new ObjectId(id) };
       const jobDetails = await jobsCollection.findOne(query);
       res.send(jobDetails);
+    });
+
+    app.post('/bidedJob', async (req, res) => {
+      try {
+        const bidedJob = req.body;
+        const result = await bidedJobsCollection.insertOne(bidedJob);
+        res.send(result);
+      } catch (error) {
+        console.log(error);
+      }
     });
 
     // Send a ping to confirm a successful connection
