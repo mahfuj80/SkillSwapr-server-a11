@@ -91,7 +91,22 @@ async function run() {
 
     // jobs related api
     app.get('/jobs', logger, async (req, res) => {
-      const result = await jobsCollection.find().toArray();
+      let queryObj = {};
+      let sortObj = {};
+
+      // filter sort
+      const category = req?.query?.category;
+      const sortField = req?.query?.sortField;
+      const sortOrder = req?.query?.category;
+
+      // pagination
+
+      if (category) {
+        queryObj.category = category;
+      }
+      console.log(category);
+
+      const result = await jobsCollection.find(queryObj).toArray();
       res.send(result);
     });
 
