@@ -110,6 +110,15 @@ async function run() {
       res.send(result);
     });
 
+    // get individual job
+    app.get('/jobDetails/:id', async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const query = { _id: new ObjectId(id) };
+      const jobDetails = await jobsCollection.findOne(query);
+      res.send(jobDetails);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db('admin').command({ ping: 1 });
     console.log(
