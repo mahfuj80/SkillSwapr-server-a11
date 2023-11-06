@@ -121,6 +121,22 @@ async function run() {
       }
     });
 
+    // get jobs by user email
+    app.get('/jobs/:email', logger, verifyToken, async (req, res) => {
+      try {
+        const userEmail = req.params.email;
+        if (userEmail === req.user.email) {
+          const query = {
+            email: userEmail,
+          };
+          const result = await jobsCollection.find(query).toArray();
+          res.send(result);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
     // get individual job
     app.get('/jobDetails/:id', async (req, res) => {
       const id = req.params.id;
