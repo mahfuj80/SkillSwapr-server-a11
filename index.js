@@ -111,6 +111,16 @@ async function run() {
       res.send(result);
     });
 
+    app.post('/jobs', logger, async (req, res) => {
+      try {
+        const jobInfo = req.body;
+        const result = await jobsCollection.insertOne(jobInfo);
+        res.send(result);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
     // get individual job
     app.get('/jobDetails/:id', async (req, res) => {
       const id = req.params.id;
