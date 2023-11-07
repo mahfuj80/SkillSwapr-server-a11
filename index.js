@@ -161,6 +161,35 @@ async function run() {
       res.send(jobDetails);
     });
 
+    // update a single job
+    app.put('/update-job/:id', logger, verifyToken, async (req, res) => {
+      const id = req.params.id;
+      const data = req.body;
+
+      const filter = {
+        _id: new ObjectId(id),
+      };
+      const options = { upsert: true };
+      const updatedData = {
+        $set: {
+          jobTitle: data.jobTitle,
+          deadline: data.deadline,
+          description: data.description,
+          category: data.category,
+          minimumPrice: data.minimumPrice,
+          maximumPrice: data.maximumPrice,
+        },
+      };
+
+      const result = await jobsCollection.updateOne(
+        filter,
+        updatedData,
+        options
+      );
+
+      res.send(result);
+    });
+
     app.post('/bidedJob', async (req, res) => {
       try {
         const bidedJob = req.body;
