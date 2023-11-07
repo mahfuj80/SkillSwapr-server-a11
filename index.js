@@ -91,6 +91,7 @@ async function run() {
     });
 
     // jobs related api
+    // get all jobs by filter
     app.get('/jobs', logger, async (req, res) => {
       let queryObj = {};
       let sortObj = {};
@@ -111,10 +112,25 @@ async function run() {
       res.send(result);
     });
 
+    // post job
     app.post('/jobs', logger, async (req, res) => {
       try {
         const jobInfo = req.body;
         const result = await jobsCollection.insertOne(jobInfo);
+        res.send(result);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    // delete a single job
+    app.delete('/job/:id', logger, async (req, res) => {
+      try {
+        const id = req.params.id;
+        const query = {
+          _id: new ObjectId(id),
+        };
+        const result = await jobsCollection.deleteOne(query);
         res.send(result);
       } catch (error) {
         console.log(error);
