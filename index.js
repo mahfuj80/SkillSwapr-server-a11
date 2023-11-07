@@ -200,6 +200,22 @@ async function run() {
       }
     });
 
+    // get bidedJobs by bidder email
+    app.get('/bidedJobs/:email', logger, verifyToken, async (req, res) => {
+      try {
+        const biderEmail = req.params.email;
+        if (biderEmail === req.user.email) {
+          const query = {
+            biddersEmail: biderEmail,
+          };
+          const result = await bidedJobsCollection.find(query).toArray();
+          res.send(result);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
     // Send a ping to confirm a successful connection
     await client.db('admin').command({ ping: 1 });
     console.log(
