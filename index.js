@@ -190,6 +190,7 @@ async function run() {
       res.send(result);
     });
 
+    // Post a single bided job of all user
     app.post('/bidedJob', async (req, res) => {
       try {
         const bidedJob = req.body;
@@ -207,6 +208,22 @@ async function run() {
         if (biderEmail === req.user.email) {
           const query = {
             biddersEmail: biderEmail,
+          };
+          const result = await bidedJobsCollection.find(query).toArray();
+          res.send(result);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    // get bidedJobs by bidder email
+    app.get('/requestedJobs/:email', logger, verifyToken, async (req, res) => {
+      try {
+        const biderEmail = req.params.email;
+        if (biderEmail === req.user.email) {
+          const query = {
+            buyerEmail: biderEmail,
           };
           const result = await bidedJobsCollection.find(query).toArray();
           res.send(result);
