@@ -233,6 +233,30 @@ async function run() {
       }
     });
 
+    // upsert bidedJobsCollection by verifyingToken
+    app.patch('/updateBidedJobs/:id', logger, verifyToken, async (req, res) => {
+      const id = req.params.id;
+      const data = req.body;
+
+      const filter = {
+        _id: new ObjectId(id),
+      };
+      const options = { upsert: true };
+      const updatedData = {
+        $set: {
+          status: data?.status,
+        },
+      };
+
+      const result = await bidedJobsCollection.updateOne(
+        filter,
+        updatedData,
+        options
+      );
+      console.log(result);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db('admin').command({ ping: 1 });
     console.log(
