@@ -10,7 +10,11 @@ require('dotenv').config();
 // middleware
 app.use(
   cors({
-    origin: ['http://localhost:5173'],
+    origin: [
+      'http://localhost:5173',
+      'https://skillswapr-a11-a6884.web.app',
+      'https://123sad-teeth.surge.sh',
+    ],
     credentials: true,
   })
 );
@@ -35,7 +39,7 @@ app.use((err, req, res, next) => {
 });
 
 const logger = async (req, res, next) => {
-  console.log('called', req.host, req.originalUrl);
+  console.log('called', req.hostname, req.originalUrl);
   next();
 };
 
@@ -237,7 +241,7 @@ async function run() {
     app.patch('/updateBidedJobs/:id', logger, verifyToken, async (req, res) => {
       const id = req.params.id;
       const data = req.body;
-
+      console.log(req.params.id);
       const filter = {
         _id: new ObjectId(id),
       };
