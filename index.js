@@ -11,8 +11,8 @@ require('dotenv').config();
 app.use(
   cors({
     origin: [
+      'https://skillswapr-a11.web.app',
       'http://localhost:5173',
-      'https://skillswapr-a11-a6884.web.app',
       'https://123sad-teeth.surge.sh',
     ],
     credentials: true,
@@ -82,9 +82,14 @@ async function run() {
       res
         .cookie('token', token, {
           httpOnly: true,
-          sameSite: 'none',
-          secure: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
         })
+        // .cookie('token', token, {
+        //   httpOnly: true,
+        //   sameSite: 'none',
+        //   secure: true,
+        // })
         .send({ success: true });
     });
 
