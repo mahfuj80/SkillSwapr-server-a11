@@ -13,6 +13,7 @@ app.use(
     origin: [
       'https://skillswapr-a11.web.app',
       'http://localhost:5173',
+      'http://localhost:5174',
       'https://123sad-teeth.surge.sh',
     ],
     credentials: true,
