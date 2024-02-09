@@ -11,10 +11,10 @@ require('dotenv').config();
 app.use(
   cors({
     origin: [
-      'https://skillswapr-a11.web.app',
       'http://localhost:5173',
       'http://localhost:5174',
       'https://123sad-teeth.surge.sh',
+      'https://skillswapr-a11.web.app',
     ],
     credentials: true,
   })
